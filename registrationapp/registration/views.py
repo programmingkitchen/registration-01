@@ -19,7 +19,7 @@ registration_blueprint = Blueprint('registration',
 
 # TODO:  Strip surrounding spaces
 @registration_blueprint.route('/registration', methods=['GET', 'POST'])
-def register():
+def registration():
     form = RegistrationForm()
 
     if form.validate_on_submit():
@@ -38,12 +38,13 @@ def register():
             db.session.add(toAdd)
             db.session.commit()
             flash('Thanks for registering! Now you can login!')
-            return redirect(url_for('auth.login'))
+            #return redirect(url_for('auth.login'))
+            return redirect(url_for('main.index'))
         except ValidationError as err:
             print("ValidationError: ", err.args, file=sys.stderr)
             flash('Email address already registered.')
             #flash(err.args)
-            return render_template('register.html', form=form)
+            return render_template('registration.html', form=form)
 
     print("REGISTER:  Valid Form on GET: ", form.validate_on_submit(), file=sys.stderr)
-    return render_template('register.html', form=form)
+    return render_template('registration.html', form=form)
